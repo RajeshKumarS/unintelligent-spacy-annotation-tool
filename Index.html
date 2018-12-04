@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .entity_type {
+                background-color: bisque;
+                margin: 0 4px;
+                padding: 4px;
+                border-radius: 2px;
+                cursor: pointer
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+<body>
+
+    <h1 style="text-align: center; color: #000; margin-bottom:50px; font-family: Arial, Helvetica, sans-serif">Un-intelligent Spacy Annotation Tool</h1>
+
+    <p>
+        <span class=entity_type style='background-color:goldenrod' onclick=set_entity_type(EntityType.GPE)>GPE</span>
+        <span class=entity_type style='background-color: lawngreen' onclick=set_entity_type(EntityType.LOC)>LOC</span>
+        <span class=entity_type style='background-color:mediumorchid' onclick=set_entity_type(EntityType.MONEY)>MONEY</span>
+        <span class=entity_type style='background-color: navajowhite' onclick=set_entity_type(EntityType.NORP)>NORP</span>
+        <span class=entity_type style='background-color: olive' onclick=set_entity_type(EntityType.ORG)>ORG</span>
+        <span class=entity_type style='background-color:aqua' onclick=set_entity_type(EntityType.PERSON)>PERSON</span>
+        <span class=entity_type style='background-color:rgb(137, 124, 167)' onclick=set_entity_type(EntityType.PRODUCT)>PRODUCT</span>
+        <span class=entity_type style='background-color:lightgray; margin-left:170px; padding:4px 10px;' onclick=reset_all()>Reset All</span>
+    </p>
+    <textarea name="inputString" rows="4" cols="100" onpaste="reset_all()" onblur="label_output()" placeholder="keyin/paste your text here ..."></textarea>
+    <div id="renderedView" style="margin:5px 0;"></div>
+    <div id="labeled" style="margin-top:20px;"></div>
+    <div id ="rangeError" style="color: red; margin:10px 0">AnnotationError: index range overlap</div>
+
+</body>
+<script>
+    var label = {"startIndex":0, "endIndex":0, "entitytType":0}
+    var labelList = []
+    var EntityType = {"NONE":0, "GPE":1, "LOC":2, "MONEY":3, "NORP":4, "ORG":5, "PERSON":6, "PRODUCT":7}
+    var invertedEntityType = ["NONE", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
+    var input_string = ""
+    Object.freeze(EntityType)
+    cursorStartPosition = 0
+    cursorEndPosition = 0
+
+    // https://stackoverflow.com/questions/8837454/sort-array-of-objects-by-single-key-with-date-value
+    function sortByKey(array, key) {
+        return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+    }
+
+    function highlight(elem)
+    {
+        elem.style.backgroundColor = 'lightgray'
+    }
+
+    function dehighlight(elem)
+    {
+        elem.style.backgroundColor = 'white'
+    }
+
+    function removelabel(elem)
+    {
+        labelList.splice($(elem).data("index"), 1)
+        show_labels()
+        $("#rangeError").hide()
+        for (i=0; i<labelList.length-1; i++)
+        {
+            if (labelList[i].endIndex >= labelList[i+1].startIndex)
+            {
+                $("#rangeError").show()
+            }     
+        }
+    }
+
+    function show_labels()
+    {
+        if (input_string.length == 0)
+            return;
+        str = ''
+        for (i=0; i<labelList.length; i++)
+        {
+            if (i != 0)
+                str += ', '
+            chunk = '<span data-index="' + i + '"style="padding:2px; border-radius:2px;" title="click to remove" onclick="removelabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + labelList[i].startIndex + ', ' + labelList[i].endIndex + ', "' + invertedEntityType[labelList[i].entitytType] + '")</span>'
+            str += chunk
+        }
+        output_string = '("' + input_string + '", [ ' + str + ' ] )'
+        $("#labeled").html(output_string);
+        /*
+        if (labelList.length > 0) {
+            $('#renderedView').text(input_string)
+        }
+        else
+            $('#renderedView').text('')
+        */    
+   }
+
+    function reset_all()
+    {
+        labelList = []
+        $("textarea[name=inputString]").val('')
+        input_string = ''
+        $("#labeled").html('');
+        $("#rangeError").hide()
+    }
+
+    function set_entity_type(num)
+    {
+        input_string = $("textarea[name=inputString]").val();
+        cursorStartPosition = $('textarea[name=inputString]').prop("selectionStart");
+        cursorEndPosition = $('textarea[name=inputString]').prop("selectionEnd");
+        labelList.push({"startIndex":cursorStartPosition, "endIndex":cursorEndPosition, "entitytType":num})
+        sortByKey(labelList, 'startIndex')
+        for (i=0; i<labelList.length-1; i++)
+        {
+            if (labelList[i].endIndex >= labelList[i+1].startIndex)
+            {
+                $("#rangeError").show()
+            }
+        }
+        show_labels()
+    }
+
+    function label_output()
+    {
+        input_string = $("textarea[name=inputString]").val()
+        output_string = '("' + input_string + '", [] )'
+        if (input_string.length > 0)
+            $("#labeled").text(output_string)
+        else
+            $("#labeled").text('')
+        cursorStartPosition = $('textarea[name=inputString]').prop("selectionStart")
+        cursorEndPosition = $('textarea[name=inputString]').prop("selectionEnd")
+    }
+
+    $(document).ready(function () {
+        $('#rangeError').hide()
+    });
+</script>
+</html>
