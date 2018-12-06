@@ -2,12 +2,40 @@
 <html>
     <head>
         <style>
-            .entity_type {
+            .entity_type_display {
+                padding: 2px;
+                border-radius: 2px
+            }
+            .entity_type_button {
                 background-color: bisque;
                 margin: 0 4px;
                 padding: 4px;
                 border-radius: 2px;
                 cursor: pointer
+            }
+            .bc_none {
+                background-color:rgb(248, 244, 244)
+            }
+            .bc_gpe {
+                background-color:goldenrod
+            }
+            .bc_loc {
+                background-color: lawngreen
+            }
+            .bc_money {
+                background-color: mediumorchid
+            }
+            .bc_norp {
+                background-color:navajowhite
+            }
+            .bc_org {
+                background-color: olive
+            }
+            .bc_person {
+                background-color: aqua
+            }
+            .bc_product {
+                background-color: rgb(137, 124, 167)
             }
             code {
                 display: inline-block; 
@@ -23,38 +51,40 @@
     <h1 style="text-align: center; color: #000; margin-bottom:50px; font-family: Arial, Helvetica, sans-serif">Un-intelligent Spacy Annotation Tool</h1>
 
     <p>
-        <span class=entity_type style='background-color:goldenrod' onclick=set_entity_type(EntityType.GPE)>GPE</span>
-        <span class=entity_type style='background-color: lawngreen' onclick=set_entity_type(EntityType.LOC)>LOC</span>
-        <span class=entity_type style='background-color:mediumorchid' onclick=set_entity_type(EntityType.MONEY)>MONEY</span>
-        <span class=entity_type style='background-color: navajowhite' onclick=set_entity_type(EntityType.NORP)>NORP</span>
-        <span class=entity_type style='background-color: olive' onclick=set_entity_type(EntityType.ORG)>ORG</span>
-        <span class=entity_type style='background-color:aqua' onclick=set_entity_type(EntityType.PERSON)>PERSON</span>
-        <span class=entity_type style='background-color:rgb(137, 124, 167)' onclick=set_entity_type(EntityType.PRODUCT)>PRODUCT</span>
-        <span class=entity_type style='background-color:lightgray; margin-left:170px; padding:4px 10px;' onclick=reset_all()>Reset All</span>
+        <span class='entity_type_button bc_gpe' onclick=updateEntityType(EntityType.GPE)>GPE</span>
+        <span class='entity_type_button bc_loc' onclick=updateEntityType(EntityType.LOC)>LOC</span>
+        <span class='entity_type_button bc_money' onclick=updateEntityType(EntityType.MONEY)>MONEY</span>
+        <span class='entity_type_button bc_norp' onclick=updateEntityType(EntityType.NORP)>NORP</span>
+        <span class='entity_type_button bc_org' onclick=updateEntityType(EntityType.ORG)>ORG</span>
+        <span class='entity_type_button bc_person' onclick=updateEntityType(EntityType.PERSON)>PERSON</span>
+        <span class='entity_type_button bc_product' onclick=updateEntityType(EntityType.PRODUCT)>PRODUCT</span>
+        <span class=entity_type style='background-color:lightgray; margin-left:170px; padding:4px 10px; cursor:pointer;' onclick=resetAll()>Reset All</span>
     </p>
-    <textarea name="inputString" rows="4" cols="100" onpaste="reset_all()" onblur="label_output()" placeholder="keyin/paste training sentence here ..."></textarea>
-    <div id="hint" style="padding-left:4px; color:darkgrey; visibility:none; font-size:smaller;">Select text and click on entity type</div>
-    <div id="renderedView" style="margin:5px 0;"></div>
+    <textarea name="trainSentence" rows="4" cols="100" onpaste="resetAll()" onblur="onTrainDataBlur()" placeholder="keyin/paste training sentence here ..."></textarea>
+    <div id="addHint" style="padding-left:4px; color:darkgrey; visibility:none; font-size:smaller;">Select text and click on entity type to annotate</div>
     <div id="labelContainer" style="margin-top:60px; width:710px; visibility:none;">
         <div style="padding:4px; font-family: Arial, Helvetica, sans-serif; font-weight:bold; font-size:medium">Training sentence with entity annotations:</div>
-        <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;" onclick="copy_to_clipboard()">Copy</span><br>
+        <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;" onclick="copyToClipboard()">Copy</span><br>
         <code id="labeled"></code>
+        <div id="deleteHint" style="margin-top:4px; padding-left:4px; color:darkgrey; visibility:none; font-size:smaller;">Click on annotation index range, e.g. (0, 5, "ORG"), to remove it</div>
     </div>
     <div id ="rangeError" style="color: red; margin:10px 0; visibility:none;">AnnotationError: index range overlap</div>
 
 </body>
 <script>
-    var label = {"startIndex":0, "endIndex":0, "entitytType":0}
-    var labelList = []
     var EntityType = {"NONE":0, "GPE":1, "LOC":2, "MONEY":3, "NORP":4, "ORG":5, "PERSON":6, "PRODUCT":7}
-    var invertedEntityType = ["NONE", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
-    var input_string = ""
     Object.freeze(EntityType)
+    var invertedEntityType = ["NONE", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
+    var label = {"startIndex":0, "endIndex":0, "entityType":0}
+    var labelList = []
+    var label_chunks = []
+    var train_sentence = ""
+    var color_coded_string = ""
     cursorStartPosition = 0
     cursorEndPosition = 0
     debug = 0
 
-    function copy_to_clipboard()
+    function copyToClipboard()
     {
         var $temp = $("<input>");
         $("body").append($temp);
@@ -83,11 +113,11 @@
         elem.style.backgroundColor = 'white'
     }
 
-    function removelabel(elem)
+    function removeLabel(elem)
     {
-        if (Boolean(debug)) console.log('removelabel()');
+        if (Boolean(debug)) console.log('removeLabel()');
         labelList.splice($(elem).data("index"), 1)
-        show_labels()
+        showLabels()
         $("#rangeError").hide()
         for (i=0; i<labelList.length-1; i++)
         {
@@ -98,52 +128,95 @@
         }
     }
 
-    function show_labels()
+    function showLabels()
     {
-        if (Boolean(debug)) console.log('show_labels()');
-        if (input_string.length == 0)
+        if (Boolean(debug)) console.log('showLabels()');
+        if (train_sentence.length == 0)
             return;
-        $("#labelContainer").show()
-        $("#hint").show()
+        createLabelChunks();
+        $("#labelContainer").show();
+        $("#addHint").show();
+        if (labelList.length > 0)
+            $('#deleteHint').show();
+        else
+            $('#deleteHint').hide();
         str = ''
         for (i=0; i<labelList.length; i++)
         {
             if (i != 0)
                 str += ', '
-            chunk = '<span data-index="' + i + '"style="padding:2px; border-radius:2px;" title="click to remove" onclick="removelabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + labelList[i].startIndex + ', ' + labelList[i].endIndex + ', "' + invertedEntityType[labelList[i].entitytType] + '")</span>'
+            chunk = '<span data-index="' + i + '"style="background-color: white; padding:2px; border-radius:2px; cursor:pointer;" title="click to remove" onclick="removeLabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + labelList[i].startIndex + ', ' + labelList[i].endIndex + ', "' + invertedEntityType[labelList[i].entityType] + '")</span>'
             str += chunk
         }
-        output_string = '("' + input_string + '", [ ' + str + ' ] )'
+        output_string = '("' + train_sentence + '", [ ' + str + ' ] )'
+        output_string = '("' + color_coded_string + '", [ ' + str + ' ] )'
         $("#labeled").html(output_string);
-        /*
-        if (labelList.length > 0) {
-            $('#renderedView').text(input_string)
-        }
-        else
-            $('#renderedView').text('')
-        */    
    }
 
-    function reset_all()
+    function resetAll()
     {
-        if (Boolean(debug)) console.log('reset_all()');
+        if (Boolean(debug)) console.log('resetAll()');
         labelList = []
-        $("textarea[name=inputString]").val('')
-        input_string = ''
+        $("textarea[name=trainSentence]").val('')
+        train_sentence = ''
         $("#labeled").html('');
         $("#rangeError").hide();
         $("#labelContainer").hide();
-        $("#hint").hide();
+        $("#addHint").hide();
+        labelList = []
+        label_chunks = []
+        train_sentence = ""
+        color_coded_string = ""
+        cursorStartPosition = 0
+        cursorEndPosition = 0
     }
 
-    function set_entity_type(num)
+    function createLabelChunks()
     {
-        if (Boolean(debug)) console.log('set_entity_type()');
-        input_string = $("textarea[name=inputString]").val();
-        cursorStartPosition = $('textarea[name=inputString]').prop("selectionStart");
-        cursorEndPosition = $('textarea[name=inputString]').prop("selectionEnd");
+        label_chunks = [];
+        ind_array = [];
+
+        ind_array.push({'startIndex':0, 'entityType':'NONE'});
+        for (i=0; i<labelList.length; i++) {
+            ind_array.push({'startIndex':labelList[i].startIndex, 'entityType':labelList[i].entityType});
+            ind_array.push({'startIndex':labelList[i].endIndex, 'entityType':0});
+        }
+        ind_array.push({'startIndex':train_sentence.length, 'entityType':0});
+        for (i=0; i<ind_array.length-1; i++) {
+            if (ind_array[i].startIndex == ind_array[i+1].startIndex)
+                ind_array.splice(i,1);
+        }
+        for (i=0; i<ind_array.length-1; i++) {
+            temp = train_sentence.slice(ind_array[i].startIndex, ind_array[i+1].startIndex);
+            if (temp.length > 0)
+                label_chunks.push({'chunk': temp, 'entityType': ind_array[i].entityType});
+        }
+        temp = '';
+        classname = ''
+        for (i=0; i<label_chunks.length; i++) {
+            switch(label_chunks[i].entityType) {
+                case 0: classname = 'bc_none'; break;
+                case 1: classname = 'bc_gpe'; break;
+                case 2: classname = 'bc_loc'; break;
+                case 3: classname = 'bc_money'; break;
+                case 4: classname = 'bc_norp'; break;
+                case 5: classname = 'bc_org'; break;
+                case 6: classname = 'bc_person'; break;
+                case 7: classname = 'bc_product'; break;
+            }
+            temp += '<span class="entity_type_display ' + classname + '">' + label_chunks[i].chunk + '</span>';
+        }
+        color_coded_string = temp;
+    }
+
+    function updateEntityType(num)
+    {
+        if (Boolean(debug)) console.log('updateEntityType()');
+        train_sentence = $("textarea[name=trainSentence]").val();
+        cursorStartPosition = $('textarea[name=trainSentence]').prop("selectionStart");
+        cursorEndPosition = $('textarea[name=trainSentence]').prop("selectionEnd");
         if (cursorStartPosition != cursorEndPosition) {
-            labelList.push({"startIndex":cursorStartPosition, "endIndex":cursorEndPosition, "entitytType":num})
+            labelList.push({"startIndex":cursorStartPosition, "endIndex":cursorEndPosition, "entityType":num})
             sortByKey(labelList, 'startIndex')
             for (i=0; i<labelList.length-1; i++)
             {
@@ -153,31 +226,32 @@
                 }
             }
         }
-        show_labels()
+        $('textarea[name=trainSentence]').prop("selectionStart", 0);
+        $('textarea[name=trainSentence]').prop("selectionEnd", 0);
+        cursorStartPosition = 0;
+        cursorEndPosition = 0;
+        showLabels();
     }
 
-    function label_output()
+    function onTrainDataBlur()
     {
-        if (Boolean(debug)) console.log('label_output()');
+        if (Boolean(debug)) console.log('onTrainDataBlur()');
 
-        input_string = $("textarea[name=inputString]").val()
-        //output_string = '("' + input_string + '", [] )'
-        if (input_string.length > 0) {
-            //$("#labeled").text(output_string)
+        train_sentence = $("textarea[name=trainSentence]").val();
+        if (train_sentence.length > 0) {
             $("#labelContainer").show();
         }
         else {
-            //$("#labeled").text('');
             $("#labelContainer").hide();
         }
 
-        cursorStartPosition = $('textarea[name=inputString]').prop("selectionStart")
-        cursorEndPosition = $('textarea[name=inputString]').prop("selectionEnd")
-        show_labels();
+        cursorStartPosition = $('textarea[name=trainSentence]').prop("selectionStart");
+        cursorEndPosition = $('textarea[name=trainSentence]').prop("selectionEnd");
+        showLabels();
     }
 
     $(document).ready(function () {
-        reset_all();
+        resetAll();
     });
 </script>
 </html>
