@@ -150,24 +150,6 @@
         output_string = '("' + train_sentence + '", [ ' + str + ' ] )'
         output_string = '("' + color_coded_string + '", [ ' + str + ' ] )'
         $("#labeled").html(output_string);
-   }
-
-    function resetAll()
-    {
-        if (Boolean(debug)) console.log('resetAll()');
-        labelList = []
-        $("textarea[name=trainSentence]").val('')
-        train_sentence = ''
-        $("#labeled").html('');
-        $("#rangeError").hide();
-        $("#labelContainer").hide();
-        $("#addHint").hide();
-        labelList = []
-        label_chunks = []
-        train_sentence = ""
-        color_coded_string = ""
-        cursorStartPosition = 0
-        cursorEndPosition = 0
     }
 
     function createLabelChunks()
@@ -247,6 +229,24 @@
         cursorStartPosition = $('textarea[name=trainSentence]').prop("selectionStart");
         cursorEndPosition = $('textarea[name=trainSentence]').prop("selectionEnd");
         showLabels();
+    }
+
+    function resetAll()
+    {
+        if (Boolean(debug)) console.log('resetAll()');
+        labelList = []
+        $("textarea[name=trainSentence]").val('')
+        train_sentence = ''
+        $("#labeled").html('');
+        $("#rangeError").hide();
+        $("#labelContainer").hide();
+        $("#addHint").hide();
+        labelList = []
+        label_chunks = []
+        train_sentence = ""
+        color_coded_string = ""
+        cursorStartPosition = 0
+        cursorEndPosition = 0
     }
 
     $(document).ready(function () {
