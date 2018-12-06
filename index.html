@@ -60,14 +60,14 @@
         <span class=entity_type style='background-color:lightgray; margin-left:170px; padding:4px 10px; cursor:pointer;' onclick=resetAll()>Reset All</span>
     </p>
     <textarea name="trainSentence" rows="4" cols="100" onpaste="resetAll()" onblur="onTrainDataBlur()" placeholder="keyin/paste training sentence here ..."></textarea>
-    <div id="addHint" style="padding-left:4px; color:darkgrey; visibility:none; font-size:smaller;">Select text and click on entity type to annotate</div>
-    <div id="labelContainer" style="margin-top:60px; width:710px; visibility:none;">
+    <div id="addHint" style="padding-left:4px; color:darkgrey; visibility:hidden; font-size:smaller;">Select text and click on entity type to annotate</div>
+    <div id="labelContainer" style="margin-top:60px; width:710px; visibility:hidden;">
         <div style="padding:4px; font-family: Arial, Helvetica, sans-serif; font-weight:bold; font-size:medium">Training sentence with entity annotations:</div>
         <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;" onclick="copyToClipboard()">Copy</span><br>
         <code id="labeled"></code>
-        <div id="deleteHint" style="margin-top:4px; padding-left:4px; color:darkgrey; visibility:none; font-size:smaller;">Click on annotation index range, e.g. (0, 5, "ORG"), to remove it</div>
+        <div id="deleteHint" style="margin-top:4px; padding-left:4px; color:darkgrey; visibility:hidden; font-size:smaller;">Click on annotation index range, e.g. (0, 5, "ORG"), to remove it</div>
     </div>
-    <div id ="rangeError" style="color: red; margin:10px 0; visibility:none;">AnnotationError: index range overlap</div>
+    <div id ="rangeError" style="color: red; margin:10px 0; visibility:hidden;">AnnotationError: index range overlap</div>
 
 </body>
 <script>
