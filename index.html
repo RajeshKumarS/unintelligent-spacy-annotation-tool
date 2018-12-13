@@ -1,280 +1,479 @@
 <!DOCTYPE html>
 <html>
-    <head>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130597273-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-130597273-1');
-</script>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130597273-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-        <style>
-            html {
-                display: table;
-                margin: auto;
-            }
-            body {
-                display: table-cell;
-                vertical-align: middle;
-            }
-            textarea {
-                resize: none;
-                line-height: 16px;
-                background-color: rgb(248, 244, 244);
-                border:solid 1px lightgray;
-            }
-            code {
-                display: inline-block; 
-                background-color: rgb(248, 244, 244);
-                padding:10px 5px;
-                line-height: 20px;
-                width: 700px; /* Whatever. The <code>'s width will change */
-            }
-            .entity_type_display {
-                padding: 1px 2px;
-                border-radius: 2px
-            }
-            .entity_type_button {
-                background-color: bisque;
-                margin: 0 4px;
-                padding: 4px;
-                border-radius: 2px;
-                cursor: pointer
-            }
-            .bc_none {
-                background-color:rgb(248, 244, 244)
-            }
-            .bc_gpe {
-                background-color:goldenrod
-            }
-            .bc_loc {
-                background-color: lawngreen
-            }
-            .bc_money {
-                background-color: mediumorchid
-            }
-            .bc_norp {
-                background-color:navajowhite
-            }
-            .bc_org {
-                background-color: olive
-            }
-            .bc_person {
-                background-color: aqua
-            }
-            .bc_product {
-                background-color: rgb(137, 124, 167)
-            }
-        </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    </head>
+        gtag('config', 'UA-130597273-1');
+    </script>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        textarea {
+            resize: none;
+            line-height: 16px;
+            width: 704px;
+            background-color: rgb(248, 244, 244);
+            border: solid 1px rgb(240, 235, 235);
+        }
+
+        code {
+            display: inline-block;
+            background-color: rgb(248, 244, 244);
+            line-height: 20px;
+            width: 706px;
+            min-height: 24px;
+            padding: 2pX;
+            /* Whatever. The <code>'s width will change */
+        }
+
+        [placeholder]:empty::before {
+            content: attr(placeholder);
+            color: #999;
+            padding: 2px 4px;
+        }
+
+        [placeholder]:empty:focus::before {
+            content: "";
+        }
+
+        #page {
+            display: table;
+            margin: auto;
+            vertical-align: middle;
+            padding-top: 50px;
+        }
+
+        .tag_type_display {
+            padding: 1px 2px;
+            border-radius: 2px
+        }
+
+        .entity_type_display {
+            padding: 1px 2px;
+            border-radius: 2px
+        }
+
+        .entity_type_button {
+            background-color: bisque;
+            margin: 0 6px;
+            padding: 4px;
+            border-radius: 2px;
+            cursor: pointer
+        }
+
+        .bc_0 {
+            background-color: rgb(248, 244, 244)
+        }
+
+        .bc_1 {
+            background-color: goldenrod
+        }
+
+        .bc_2 {
+            background-color: lawngreen
+        }
+
+        .bc_3 {
+            background-color: mediumorchid
+        }
+
+        .bc_4 {
+            background-color: navajowhite
+        }
+
+        .bc_5 {
+            background-color: olivedrab
+        }
+
+        .bc_6 {
+            background-color: aqua
+        }
+
+        .bc_7 {
+            background-color: rgb(137, 124, 167)
+        }
+
+        .menuhighlight {
+            color: firebrick;
+            font-weight: bold;
+            border-bottom: solid 3px firebrick;
+        }
+
+        .menudehighlight {
+            color: #AAA;
+            font-weight: normal;
+        }
+
+        .historyHighlight {
+            background-color: red !important;
+        }
+
+        .historyContent {
+            padding: 4px;
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .deleteIcon {
+            margin-right: 5px;
+            padding: 0px 4px;
+            background-color: white;
+            border: solid 1px #777;
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
 <body>
-
-    <h2 style="text-align: center; color: #000; margin-bottom:75px; font-family: Arial, Helvetica, sans-serif">Un-intelligent Spacy Annotation Tool</h2>
-    <p>
-        <span class='entity_type_button bc_gpe' onclick=updateEntityType(EntityType.GPE)>GPE</span>
-        <span class='entity_type_button bc_loc' onclick=updateEntityType(EntityType.LOC)>LOC</span>
-        <span class='entity_type_button bc_money' onclick=updateEntityType(EntityType.MONEY)>MONEY</span>
-        <span class='entity_type_button bc_norp' onclick=updateEntityType(EntityType.NORP)>NORP</span>
-        <span class='entity_type_button bc_org' onclick=updateEntityType(EntityType.ORG)>ORG</span>
-        <span class='entity_type_button bc_person' onclick=updateEntityType(EntityType.PERSON)>PERSON</span>
-        <span class='entity_type_button bc_product' onclick=updateEntityType(EntityType.PRODUCT)>PRODUCT</span>
-        <span class=entity_type style='background-color:lightgray; margin-left:170px; padding:4px 10px; cursor:pointer;' onclick=resetAll()>Reset All</span>
-    </p>
-    <textarea spellcheck="false" name="trainSentence" rows="5" cols="100" onpaste="resetAll()" onblur="onTrainDataBlur()" placeholder="keyin/paste training sentence here ..."></textarea>
-    <div id="addHint" style="padding-left:4px; color:darkgrey; display:none; font-size:smaller;">Select text and click on entity type to annotate</div>
-    <div id="labelContainer" style="margin-top:60px; width:710px; display:none;">
-        <div style="padding:4px; font-family: Arial, Helvetica, sans-serif; font-weight:bold; font-size:medium">Training sentence with entity annotations:</div>
-        <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;" onclick="copyToClipboard()">Copy</span><br>
-        <code id="labeled"></code>
-        <div id="deleteHint" style="margin-top:4px; padding-left:4px; color:darkgrey; display:none; font-size:smaller;">Click on annotation index range, e.g. (0, 5, "..."), to remove it</div>
+    <div style="display: inline-block; width:100%; border-bottom: solid 1px rgb(245, 245, 255); background-color: rgb(252, 252, 255)">
+        <div style="text-align: center; color: #000; margin-bottom:20px;">
+            <h1 style="margin-bottom:0px; font-size:1.5em; font-family: Arial, Helvetica, sans-serif">Un-intelligent
+                Spacy Entity Annotation Tool</h1>
+            <div style="font-size:small; font-family: 'Times New Roman', Times, serif">by beginners, for beginners</div>
+        </div>
     </div>
-    <div id ="rangeError" style="color: red; margin:10px 0; display:none;">AnnotationError: index range overlap</div>
+    <div id="page">
 
+        <div id="nerBlock" class="label_block" style="width: 710px;">
+            <p id="entities"></p>
+            <textarea spellcheck="false" name="trainNerSentence" rows="5" onpaste="nerResetAll()" onkeyup="onKeyUp()"
+                placeholder="keyin/paste training sentence here and press 'Start Annotation' ..."></textarea>
+            <span id="addNerHint" style="float:left; padding-left:4px; color:rgb(127, 127, 127); display:none; font-size:smaller;">Select
+                text
+                and click on entity type to annotate</span>
+            <span id="startButton">
+                <span class=entity_type style='margin-top:4px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
+                    onclick="onStartAnnotation()">Start Annotation</span>
+            </span>
+            <div id="nerLabelContainer" style="margin-top:60px; display:none;">
+                <div style="padding:4px 0px; font-family: Arial, Helvetica, sans-serif; font-weight:550; font-size:medium">Training
+                    sentence with entity annotations:</div>
+                <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;"
+                    onclick="copyToClipboard()">Copy</span><br>
+                <code id="nerLabeled" class="noselect"></code>
+                <span id="deleteHint" style="float:left; margin-top:4px; padding-left:4px; color:rgb(127, 127, 127); display:none; font-size:smaller;">Click
+                    on annotation index range, e.g. (0, 5, "..."), to remove it</span>
+                <span id="saveButton">
+                    <span class=entity_type style='margin-top:8px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
+                        onclick=onSaveToHistory()>Save to History</span>
+                </span>
+            </div>
+            <div id="nerRangeError" style="color: red; margin:10px 0; display:none;">AnnotationError: index range
+                overlap</div>
+            <div style="clear:both;"></div>
+            <div id="history" style="margin-top:50px; display:none;">
+                <div style="font-family: Arial, Helvetica, sans-serif;"><b>History</b></div>
+                <div>
+                    <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;"
+                        onclick="copyHistoryToClipboard()">Copy</span>
+                    <span style="float:right; padding:4px 8px; margin-right:8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;"
+                        onclick="clearHistory()">Clear</span>
+                </div>
+                <div style="clear:both;"></div>
+                <div id="historyContent" style="min-height:20px; padding:4px; border-radius:2px; background-color: rgb(248, 244, 244);"></div>
+            </div>
+        </div>
+
+    </div>
 </body>
 <script>
-    var EntityType = {"NONE":0, "GPE":1, "LOC":2, "MONEY":3, "NORP":4, "ORG":5, "PERSON":6, "PRODUCT":7}
+    var EntityType = { "NONE": 0, "GPE": 1, "LOC": 2, "MONEY": 3, "NORP": 4, "ORG": 5, "PERSON": 6, "PRODUCT": 7 }
     Object.freeze(EntityType)
     var invertedEntityType = ["NONE", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
-    var label = {"startIndex":0, "endIndex":0, "entityType":0}
-    var labelList = []
+    var label = { "startIndex": 0, "endIndex": 0, "entityType": 0 }
+    var nerLabelList = []
     var label_chunks = []
     var train_sentence = ""
     var color_coded_string = ""
+    nerSavedHistoryStack = []
+    nerErrorFlag = 0
     cursorStartPosition = 0
     cursorEndPosition = 0
     debug = 0
 
-    function copyToClipboard()
-    {
+
+    function createEntityButtons() {
+        temp = '';
+        for (i = 1; i < invertedEntityType.length; i++) {
+            clr = 'bc_' + i;
+            temp += '<span class="entity_type_button ' + clr + '"  onclick=updateEntityType(' + i + ')>' + invertedEntityType[i] + '</span>'
+        }
+        $('#entities').html(temp);
+    }
+
+    function removeNerLabel(elem) {
+        if (Boolean(debug)) console.log('removeNerLabel()');
+        nerLabelList.splice($(elem).data("index"), 1);
+        showNerLabels();
+        $("#nerRangeError").hide();
+        nerErrorFlag = 0;
+        for (i = 0; i < nerLabelList.length - 1; i++) {
+            if (nerLabelList[i].endIndex >= nerLabelList[i + 1].startIndex) {
+                $("#nerRangeError").show();
+                nerErrorFlag = 1;
+            }
+        }
+    }
+
+    function showNerLabels() {
+        if (Boolean(debug)) console.log('showNerLabels()');
+        if (train_sentence.length == 0)
+            return;
+        createNerLabelChunks();
+        $("#nerLabelContainer").show();
+        $("#addNerHint").show();
+        if (nerLabelList.length > 0)
+            $('#deleteHint').show();
+        else
+            $('#deleteHint').hide();
+        str = '';
+        for (i = 0; i < nerLabelList.length; i++) {
+            if (i != 0)
+                str += ', ';
+            chunk = '<span data-index="' + i + '"style="background-color: white; padding:2px; border-radius:2px; cursor:pointer;" title="click to remove" onclick="removeNerLabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + nerLabelList[i].startIndex + ', ' + nerLabelList[i].endIndex + ', "' + invertedEntityType[nerLabelList[i].entityType] + '")</span>';
+            str += chunk;
+        }
+        output_string = '("' + color_coded_string + '", [ ' + str + ' ] )';
+        $("#nerLabeled").html(output_string);
+    }
+
+    function createNerLabelChunks() {
+        label_chunks = [];
+        ind_array = [];
+
+        ind_array.push({ 'startIndex': 0, 'entityType': 'NONE' });
+        for (i = 0; i < nerLabelList.length; i++) {
+            ind_array.push({ 'startIndex': nerLabelList[i].startIndex, 'entityType': nerLabelList[i].entityType });
+            ind_array.push({ 'startIndex': nerLabelList[i].endIndex, 'entityType': 0 });
+        }
+        ind_array.push({ 'startIndex': train_sentence.length, 'entityType': 0 });
+        for (i = 0; i < ind_array.length - 1; i++) {
+            if (ind_array[i].startIndex == ind_array[i + 1].startIndex)
+                ind_array.splice(i, 1);
+        }
+        for (i = 0; i < ind_array.length - 1; i++) {
+            temp = train_sentence.slice(ind_array[i].startIndex, ind_array[i + 1].startIndex);
+            if (temp.length > 0)
+                label_chunks.push({ 'chunk': temp, 'entityType': ind_array[i].entityType });
+        }
+        temp = '';
+        for (i = 0; i < label_chunks.length; i++) {
+            classname = 'bc_' + label_chunks[i].entityType;
+            temp += '<span class="entity_type_display ' + classname + '">' + label_chunks[i].chunk + '</span>';
+        }
+        color_coded_string = temp;
+    }
+
+    function updateEntityType(num) {
+        if (Boolean(debug)) console.log('updateEntityType()');
+        train_sentence = $("textarea[name=trainNerSentence]").val();
+        cursorStartPosition = $('textarea[name=trainNerSentence]').prop("selectionStart");
+        cursorEndPosition = $('textarea[name=trainNerSentence]').prop("selectionEnd");
+        if (cursorStartPosition != cursorEndPosition) {
+            nerLabelList.push({ "startIndex": cursorStartPosition, "endIndex": cursorEndPosition, "entityType": num });
+            sortByKey(nerLabelList, 'startIndex');
+            nerErrorFlag = 0;
+            for (i = 0; i < nerLabelList.length - 1; i++) {
+                if (nerLabelList[i].endIndex >= nerLabelList[i + 1].startIndex) {
+                    $("#nerRangeError").show();
+                    nerErrorFlag = 1;
+                }
+            }
+        }
+        $('textarea[name=trainNerSentence]').prop("selectionStart", 0);
+        $('textarea[name=trainNerSentence]').prop("selectionEnd", 0);
+        cursorStartPosition = 0;
+        cursorEndPosition = 0;
+        showNerLabels();
+    }
+
+    function onNerTrainDataBlur() {
+        if (Boolean(debug)) console.log('onNerTrainDataBlur()');
+
+        train_sentence = $("textarea[name=trainNerSentence]").val();
+        if (train_sentence.length > 0) {
+            $("#nerLabelContainer").show();
+        }
+        else {
+            $("#nerLabelContainer").hide();
+        }
+        cursorStartPosition = $('textarea[name=trainNerSentence]').prop("selectionStart");
+        cursorEndPosition = $('textarea[name=trainNerSentence]').prop("selectionEnd");
+        showNerLabels();
+    }
+
+    function onKeyUp() {
+        str = $("textarea[name=trainNerSentence]").val();
+        if (str.localeCompare(train_sentence) != 0)
+            nerResetAll();
+    }
+
+    function onStartAnnotation() {
+        if (Boolean(debug)) console.log('onStartAnnotation()');
+        nerLabelList = [];
+        label_chunks = [];
+        color_coded_string = "";
+        cursorStartPosition = 0;
+        cursorEndPosition = 0;
+        train_sentence = $("textarea[name=trainNerSentence]").val();
+        if (train_sentence.length > 0) {
+            $("#nerLabelContainer").show();
+        }
+        showNerLabels();
+    }
+
+    function copyHistoryToClipboard() {
         var $temp = $("<input>");
         $("body").append($temp);
-        $temp.val($("#labeled").text()).select();
+        chunk = '';
+        for (i = nerSavedHistoryStack.length - 1; i > 0; i--) {
+            chunk += nerSavedHistoryStack[i] + ', ';
+        }
+        if (nerSavedHistoryStack.length > 0) {
+            chunk += nerSavedHistoryStack[0];
+        }
+        $temp.val(chunk).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    function clearHistory() {
+        setTimeout(function () {
+            yesno = confirm("Are you sure?");
+            if (yesno == true)
+                $('#historyContent').html('');
+        }, 5);
+    }
+
+    function onRemoveFromHistory(elem) {
+        $(elem).addClass('historyHighlight');
+        var yesno = false;
+        setTimeout(function () {
+            yesno = confirm("Are you sure?");
+            console.log(yesno);
+            if (yesno == false)
+                $(elem).removeClass('historyHighlight');
+            else {
+                temp = $(elem).data('index');
+                nerSavedHistoryStack.splice(temp, 1);
+                temp = '';
+                for (i = nerSavedHistoryStack.length - 1; i > 0; i--) {
+                    deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
+                    temp += '<div data-index="' + i + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + nerSavedHistoryStack[i] + ',</span></div>';
+                }
+                if (nerSavedHistoryStack.length > 0) {
+                    deleteChunk = '<span data-index="0" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
+                    temp += '<div data-index="0" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + nerSavedHistoryStack[0] + '</span></div>';
+                }
+                $('#historyContent').html(temp);
+            }
+        }, 5);
+    }
+
+    function onSaveToHistory() {
+        if (nerErrorFlag == 0) {
+            content = $("#nerLabeled").text();
+            nerSavedHistoryStack.push(content);
+            if (nerSavedHistoryStack.length == 1) {
+                deleteChunk = '<span data-index="0" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
+                $('#historyContent').prepend('<div data-index="0" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + '</span></div>');
+            }
+            else {
+                deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
+                $('#historyContent').prepend('<div data-index="' + (nerSavedHistoryStack.length - 1) + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + ',</span></div>');
+            }
+            $('#history').show();
+        }
+        else {
+            alert("Please remove annotation error first!")
+        }
+    }
+
+    function nerResetAll() {
+        if (Boolean(debug)) console.log('nerResetAll()');
+        nerLabelList = [];
+        train_sentence = '';
+        $("#nerLabeled").html('');
+        $("#nerRangeError").hide();
+        $("#deleteHint").hide();
+        $("#addNerHint").hide();
+        label_chunks = [];
+        train_sentence = "";
+        color_coded_string = "";
+        cursorStartPosition = 0;
+        cursorEndPosition = 0;
+    }
+
+    function copyToClipboard() {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($("#nerLabeled").text()).select();
         document.execCommand("copy");
         $temp.remove();
     }
 
     // https://stackoverflow.com/questions/8837454/sort-array-of-objects-by-single-key-with-date-value
     function sortByKey(array, key) {
-        return array.sort(function(a, b) {
+        return array.sort(function (a, b) {
             var x = a[key]; var y = b[key];
             return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
     }
 
-    function highlight(elem)
-    {
+    function highlight(elem) {
         if (Boolean(debug)) console.log('highlight()');
         elem.style.backgroundColor = 'lightgray';
     }
 
-    function dehighlight(elem)
-    {
+    function dehighlight(elem) {
         if (Boolean(debug)) console.log('dehighlight()');
-        elem.style.backgroundColor = 'white'
+        elem.style.backgroundColor = 'white';
     }
 
-    function removeLabel(elem)
-    {
-        if (Boolean(debug)) console.log('removeLabel()');
-        labelList.splice($(elem).data("index"), 1)
-        showLabels()
-        $("#rangeError").hide()
-        for (i=0; i<labelList.length-1; i++)
-        {
-            if (labelList[i].endIndex >= labelList[i+1].startIndex)
-            {
-                $("#rangeError").show()
-            }     
-        }
-    }
-
-    function showLabels()
-    {
-        if (Boolean(debug)) console.log('showLabels()');
-        if (train_sentence.length == 0)
-            return;
-        createLabelChunks();
-        $("#labelContainer").show();
-        $("#addHint").show();
-        if (labelList.length > 0)
-            $('#deleteHint').show();
-        else
-            $('#deleteHint').hide();
-        str = ''
-        for (i=0; i<labelList.length; i++)
-        {
-            if (i != 0)
-                str += ', '
-            chunk = '<span data-index="' + i + '"style="background-color: white; padding:2px; border-radius:2px; cursor:pointer;" title="click to remove" onclick="removeLabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + labelList[i].startIndex + ', ' + labelList[i].endIndex + ', "' + invertedEntityType[labelList[i].entityType] + '")</span>'
-            str += chunk
-        }
-        output_string = '("' + train_sentence + '", [ ' + str + ' ] )'
-        output_string = '("' + color_coded_string + '", [ ' + str + ' ] )'
-        $("#labeled").html(output_string);
-    }
-
-    function createLabelChunks()
-    {
-        label_chunks = [];
-        ind_array = [];
-
-        ind_array.push({'startIndex':0, 'entityType':'NONE'});
-        for (i=0; i<labelList.length; i++) {
-            ind_array.push({'startIndex':labelList[i].startIndex, 'entityType':labelList[i].entityType});
-            ind_array.push({'startIndex':labelList[i].endIndex, 'entityType':0});
-        }
-        ind_array.push({'startIndex':train_sentence.length, 'entityType':0});
-        for (i=0; i<ind_array.length-1; i++) {
-            if (ind_array[i].startIndex == ind_array[i+1].startIndex)
-                ind_array.splice(i,1);
-        }
-        for (i=0; i<ind_array.length-1; i++) {
-            temp = train_sentence.slice(ind_array[i].startIndex, ind_array[i+1].startIndex);
-            if (temp.length > 0)
-                label_chunks.push({'chunk': temp, 'entityType': ind_array[i].entityType});
-        }
-        temp = '';
-        classname = ''
-        for (i=0; i<label_chunks.length; i++) {
-            switch(label_chunks[i].entityType) {
-                case 0: classname = 'bc_none'; break;
-                case 1: classname = 'bc_gpe'; break;
-                case 2: classname = 'bc_loc'; break;
-                case 3: classname = 'bc_money'; break;
-                case 4: classname = 'bc_norp'; break;
-                case 5: classname = 'bc_org'; break;
-                case 6: classname = 'bc_person'; break;
-                case 7: classname = 'bc_product'; break;
-            }
-            temp += '<span class="entity_type_display ' + classname + '">' + label_chunks[i].chunk + '</span>';
-        }
-        color_coded_string = temp;
-    }
-
-    function updateEntityType(num)
-    {
-        if (Boolean(debug)) console.log('updateEntityType()');
-        train_sentence = $("textarea[name=trainSentence]").val();
-        cursorStartPosition = $('textarea[name=trainSentence]').prop("selectionStart");
-        cursorEndPosition = $('textarea[name=trainSentence]').prop("selectionEnd");
-        if (cursorStartPosition != cursorEndPosition) {
-            labelList.push({"startIndex":cursorStartPosition, "endIndex":cursorEndPosition, "entityType":num})
-            sortByKey(labelList, 'startIndex')
-            for (i=0; i<labelList.length-1; i++)
-            {
-                if (labelList[i].endIndex >= labelList[i+1].startIndex)
-                {
-                    $("#rangeError").show()
-                }
-            }
-        }
-        $('textarea[name=trainSentence]').prop("selectionStart", 0);
-        $('textarea[name=trainSentence]').prop("selectionEnd", 0);
-        cursorStartPosition = 0;
-        cursorEndPosition = 0;
-        showLabels();
-    }
-
-    function onTrainDataBlur()
-    {
-        if (Boolean(debug)) console.log('onTrainDataBlur()');
-
-        train_sentence = $("textarea[name=trainSentence]").val();
-        if (train_sentence.length > 0) {
-            $("#labelContainer").show();
-        }
-        else {
-            $("#labelContainer").hide();
-        }
-        cursorStartPosition = $('textarea[name=trainSentence]').prop("selectionStart");
-        cursorEndPosition = $('textarea[name=trainSentence]').prop("selectionEnd");
-        showLabels();
-    }
-
-    function resetAll()
-    {
-        if (Boolean(debug)) console.log('resetAll()');
-        labelList = []
-        $("textarea[name=trainSentence]").val('')
-        train_sentence = ''
-        $("#labeled").html('');
-        $("#rangeError").hide();
-        $("#labelContainer").hide();
-        $("#addHint").hide();
-        labelList = []
-        label_chunks = []
-        train_sentence = ""
-        color_coded_string = ""
-        cursorStartPosition = 0
-        cursorEndPosition = 0
+    function resetAll() {
+        nerResetAll();
     }
 
     $(document).ready(function () {
         resetAll();
+        createEntityButtons();
+    });
+
+    // https://stackoverflow.com/questions/20726174/placeholder-for-contenteditable-div
+    jQuery(function ($) {
+        $("[contenteditable]").focusout(function () {
+            var element = $(this);
+            if (!element.text().trim().length) {
+                element.empty();
+            }
+        });
     });
 </script>
+
 </html>
