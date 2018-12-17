@@ -25,12 +25,13 @@
         }
 
         code {
-            display: inline-block;
+            display: block;
             background-color: rgb(248, 244, 244);
             line-height: 20px;
             width: 706px;
             min-height: 24px;
             padding: 2pX;
+            margin-top:4px;
             /* Whatever. The <code>'s width will change */
         }
 
@@ -112,8 +113,9 @@
             font-weight: normal;
         }
 
-        .historyHighlight {
-            background-color: red !important;
+        .historyDeleteHighlight {
+            background-color: #777 !important;
+            color: white !important;
         }
 
         .historyContent {
@@ -167,10 +169,13 @@
             <span id="addNerHint" style="float:left; padding-left:4px; color:rgb(127, 127, 127); display:none; font-size:smaller;">Select
                 text
                 and click on entity type to annotate</span>
-            <span id="startButton">
+            <span id="trainSentButtons">
                 <span class=entity_type style='margin-top:4px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
                     onclick="onStartAnnotation()">Start Annotation</span>
+                    <span id="nerResetButton" class='entity_type menudehighlight' style='margin-top:4px; margin-right:8px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
+                        onclick="onNerClearAll()">Reset</span>
             </span>
+            <div style="clear:both;"></div>
             <div id="nerLabelContainer" style="margin-top:60px; display:none;">
                 <div style="padding:4px 0px; font-family: Arial, Helvetica, sans-serif; font-weight:550; font-size:medium">Training
                     sentence with entity annotations:</div>
@@ -209,13 +214,13 @@
     var label = { "startIndex": 0, "endIndex": 0, "entityType": 0 }
     var nerLabelList = []
     var label_chunks = []
+    var nerSavedHistoryStack = []
     var train_sentence = ""
     var color_coded_string = ""
-    nerSavedHistoryStack = []
-    nerErrorFlag = 0
-    cursorStartPosition = 0
-    cursorEndPosition = 0
-    debug = 0
+    var nerErrorFlag = 0
+    var cursorStartPosition = 0
+    var cursorEndPosition = 0
+    var debug = 0
 
 
     function createEntityButtons() {
@@ -306,6 +311,11 @@
                 }
             }
         }
+        if (train_sentence.length > 0) {  
+            $('#nerResetButton').removeClass('menudehighlight');
+            if (nerErrorFlag == 0)
+                $('#saveButton').removeClass('menudehighlight');
+        }
         $('textarea[name=trainNerSentence]').prop("selectionStart", 0);
         $('textarea[name=trainNerSentence]').prop("selectionEnd", 0);
         cursorStartPosition = 0;
@@ -344,6 +354,8 @@
         train_sentence = $("textarea[name=trainNerSentence]").val();
         if (train_sentence.length > 0) {
             $("#nerLabelContainer").show();
+            $('#saveButton').removeClass('menudehighlight');
+            $('#nerResetButton').removeClass('menudehighlight');
         }
         showNerLabels();
     }
@@ -353,7 +365,7 @@
         $("body").append($temp);
         chunk = '';
         for (i = nerSavedHistoryStack.length - 1; i > 0; i--) {
-            chunk += nerSavedHistoryStack[i] + ', \n';
+            chunk += nerSavedHistoryStack[i] + ", \n";
         }
         if (nerSavedHistoryStack.length > 0) {
             chunk += nerSavedHistoryStack[0];
@@ -364,21 +376,24 @@
     }
 
     function clearHistory() {
+        $('.deleteIcon').addClass('historyDeleteHighlight');
         setTimeout(function () {
             yesno = confirm("Are you sure?");
             if (yesno == true)
                 $('#historyContent').html('');
+            else
+                $('.deleteIcon').removeClass('historyDeleteHighlight');
         }, 5);
     }
 
     function onRemoveFromHistory(elem) {
-        $(elem).addClass('historyHighlight');
+        $(elem).addClass('historyDeleteHighlight');
         var yesno = false;
         setTimeout(function () {
             yesno = confirm("Are you sure?");
             console.log(yesno);
             if (yesno == false)
-                $(elem).removeClass('historyHighlight');
+                $(elem).removeClass('historyDeleteHighlight');
             else {
                 temp = $(elem).data('index');
                 nerSavedHistoryStack.splice(temp, 1);
@@ -397,8 +412,8 @@
     }
 
     function onSaveToHistory() {
-        if (nerErrorFlag == 0) {
-            content = $("#nerLabeled").text();
+        content = $("#nerLabeled").text();
+        if (nerErrorFlag == 0 && content.length != 0) {
             nerSavedHistoryStack.push(content);
             if (nerSavedHistoryStack.length == 1) {
                 deleteChunk = '<span data-index="0" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
@@ -410,10 +425,28 @@
             }
             $('#history').show();
         }
-        else {
+        else if (nerErrorFlag != 0) {
             alert("Please remove annotation error first!")
         }
     }
+
+function onNerClearAll() {
+    if (Boolean(debug)) console.log('onNerClearAll()');
+    nerLabelList = [];
+    $("textarea[name=trainNerSentence]").val('');
+    train_sentence = '';
+    $("#nerLabeled").html('');
+    $("#nerRangeError").hide();
+    $("#deleteHint").hide();
+    $("#addNerHint").hide();
+    label_chunks = [];
+    train_sentence = "";
+    color_coded_string = "";
+    cursorStartPosition = 0;
+    cursorEndPosition = 0;
+    $('#nerResetButton').addClass('menudehighlight');
+    $('#saveButton').addClass('menudehighlight');
+}
 
     function nerResetAll() {
         if (Boolean(debug)) console.log('nerResetAll()');
@@ -424,10 +457,10 @@
         $("#deleteHint").hide();
         $("#addNerHint").hide();
         label_chunks = [];
-        train_sentence = "";
         color_coded_string = "";
         cursorStartPosition = 0;
         cursorEndPosition = 0;
+        $('#saveButton').addClass('menudehighlight');
     }
 
     function copyToClipboard() {
