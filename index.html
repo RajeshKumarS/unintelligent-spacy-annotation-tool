@@ -208,9 +208,9 @@
     </div>
 </body>
 <script>
-    var EntityType = { "NONE": 0, "GPE": 1, "LOC": 2, "MONEY": 3, "NORP": 4, "ORG": 5, "PERSON": 6, "PRODUCT": 7 }
+    var EntityType = { "NONE": 0, "DATE":1, "TIME":2, "GPE": 3, "LOC": 4, "MONEY": 5, "NORP": 6, "ORG": 7, "PERSON": 8, "PRODUCT": 9 }
     Object.freeze(EntityType)
-    var invertedEntityType = ["NONE", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
+    var invertedEntityType = ["NONE", "DATE", "TIME", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
     var label = { "startIndex": 0, "endIndex": 0, "entityType": 0 }
     var nerLabelList = []
     var label_chunks = []
