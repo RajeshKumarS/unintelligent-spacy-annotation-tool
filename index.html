@@ -5,11 +5,11 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130597273-1"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
 
-        gtag('config', 'UA-130597273-1');
+gtag('config', 'UA-130597273-1');
     </script>
     <style>
         body {
@@ -31,7 +31,7 @@
             width: 706px;
             min-height: 24px;
             padding: 2pX;
-            margin-top:4px;
+            margin-top: 4px;
             /* Whatever. The <code>'s width will change */
         }
 
@@ -52,6 +52,11 @@
             padding-top: 50px;
         }
 
+        #entities {
+            padding: 4px;
+            overflow: hidden;
+        }
+
         .tag_type_display {
             padding: 1px 2px;
             border-radius: 2px
@@ -59,12 +64,13 @@
 
         .entity_type_display {
             padding: 1px 2px;
-            border-radius: 2px
+            border-radius: 2px;
         }
 
         .entity_type_button {
+            float: left;
             background-color: bisque;
-            margin: 0 6px;
+            margin: 2px 4px;
             padding: 4px;
             border-radius: 2px;
             cursor: pointer
@@ -87,7 +93,7 @@
         }
 
         .bc_4 {
-            background-color: yellow
+            background-color: rgb(240, 86, 119)
         }
 
         .bc_5 {
@@ -100,6 +106,50 @@
 
         .bc_7 {
             background-color: #FF0099
+        }
+
+        .bc_8 {
+            background-color: #FF99FF
+        }
+
+        .bc_9 {
+            background-color: #FFCCCC
+        }
+
+        .bc_10 {
+            background-color: #FFFF77
+        }
+
+        .bc_11 {
+            background-color: #9999FF
+        }
+
+        .bc_12 {
+            background-color: #00CC00
+        }
+
+        .bc_13 {
+            background-color: #66CCCC
+        }
+
+        .bc_14 {
+            background-color: #FFCC99
+        }
+
+        .bc_15 {
+            background-color: #FFFFCC
+        }
+
+        .bc_16 {
+            background-color: #CCFFCC
+        }
+
+        .bc_17 {
+            background-color: rgb(236, 197, 79)
+        }
+
+        .bc_18 {
+            background-color: rgb(193, 226, 226)
         }
 
         .menuhighlight {
@@ -163,7 +213,8 @@
     <div id="page">
 
         <div id="nerBlock" class="label_block" style="width: 710px;">
-            <p id="entities"></p>
+            <div id="entities"></div>
+            <div style="clear:both;"></div>
             <textarea spellcheck="false" name="trainNerSentence" rows="5" onpaste="nerResetAll()" onkeyup="onKeyUp()"
                 placeholder="keyin/paste training sentence here and press 'Start Annotation' ..."></textarea>
             <span id="addNerHint" style="float:left; padding-left:4px; color:rgb(127, 127, 127); display:none; font-size:smaller;">Select
@@ -172,8 +223,8 @@
             <span id="trainSentButtons">
                 <span class=entity_type style='margin-top:4px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
                     onclick="onStartAnnotation()">Start Annotation</span>
-                    <span id="nerResetButton" class='entity_type menudehighlight' style='margin-top:4px; margin-right:8px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
-                        onclick="onNerClearAll()">Reset</span>
+                <span id="nerResetButton" class='entity_type menudehighlight' style='margin-top:4px; margin-right:8px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
+                    onclick="onNerClearAll()">Reset</span>
             </span>
             <div style="clear:both;"></div>
             <div id="nerLabelContainer" style="margin-top:60px; display:none;">
@@ -208,9 +259,13 @@
     </div>
 </body>
 <script>
-    var EntityType = { "NONE": 0, "DATE":1, "TIME":2, "GPE": 3, "LOC": 4, "MONEY": 5, "NORP": 6, "ORG": 7, "PERSON": 8, "PRODUCT": 9 }
+    var EntityType = {
+        "NONE": 0, "PERSON": 1, "NORP": 2, "FAC": 3, "GPE": 4, "PRODUCT": 5, "EVENT": 6, "WORK_OF_ART": 7, "LAW": 8, "LANGUAGE": 9,
+        "ORG": 10, "LOC": 11, "DATE": 12, "TIME": 13, "PERCENT": 14, "MONEY": 15, "QUANTITY": 16, "ORDINAL": 17, "CARDINAL": 18
+    }
     Object.freeze(EntityType)
-    var invertedEntityType = ["NONE", "DATE", "TIME", "GPE", "LOC", "MONEY", "NORP", "ORG", "PERSON", "PRODUCT"]
+    var invertedEntityType = ["NONE", "PERSON", "NORP", "FAC", "GPE", "PRODUCT", "EVENT", "WORK_OF_ART",
+        "LAW", "LANGUAGE", "ORG", "LOC", "DATE", "TIME", "PERCENT", "MONEY", "QUANTITY", "ORDINAL", "CARDINAL"]
     var label = { "startIndex": 0, "endIndex": 0, "entityType": 0 }
     var nerLabelList = []
     var label_chunks = []
@@ -311,7 +366,7 @@
                 }
             }
         }
-        if (train_sentence.length > 0) {  
+        if (train_sentence.length > 0) {
             $('#nerResetButton').removeClass('menudehighlight');
             if (nerErrorFlag == 0)
                 $('#saveButton').removeClass('menudehighlight');
@@ -415,14 +470,10 @@
         content = $("#nerLabeled").text();
         if (nerErrorFlag == 0 && content.length != 0) {
             nerSavedHistoryStack.push(content);
-            if (nerSavedHistoryStack.length == 1) {
-                deleteChunk = '<span data-index="0" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
-                $('#historyContent').prepend('<div data-index="0" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + '</span></div>');
-            }
-            else {
-                deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
-                $('#historyContent').prepend('<div data-index="' + (nerSavedHistoryStack.length - 1) + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + ',</span></div>');
-            }
+            if (nerSavedHistoryStack.length != 1)
+                content += ',';
+            deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
+            $('#historyContent').prepend('<div data-index="' + (nerSavedHistoryStack.length - 1) + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + '</span></div>');
             $('#history').show();
         }
         else if (nerErrorFlag != 0) {
@@ -430,23 +481,23 @@
         }
     }
 
-function onNerClearAll() {
-    if (Boolean(debug)) console.log('onNerClearAll()');
-    nerLabelList = [];
-    $("textarea[name=trainNerSentence]").val('');
-    train_sentence = '';
-    $("#nerLabeled").html('');
-    $("#nerRangeError").hide();
-    $("#deleteHint").hide();
-    $("#addNerHint").hide();
-    label_chunks = [];
-    train_sentence = "";
-    color_coded_string = "";
-    cursorStartPosition = 0;
-    cursorEndPosition = 0;
-    $('#nerResetButton').addClass('menudehighlight');
-    $('#saveButton').addClass('menudehighlight');
-}
+    function onNerClearAll() {
+        if (Boolean(debug)) console.log('onNerClearAll()');
+        nerLabelList = [];
+        $("textarea[name=trainNerSentence]").val('');
+        train_sentence = '';
+        $("#nerLabeled").html('');
+        $("#nerRangeError").hide();
+        $("#deleteHint").hide();
+        $("#addNerHint").hide();
+        label_chunks = [];
+        train_sentence = "";
+        color_coded_string = "";
+        cursorStartPosition = 0;
+        cursorEndPosition = 0;
+        $('#nerResetButton').addClass('menudehighlight');
+        $('#saveButton').addClass('menudehighlight');
+    }
 
     function nerResetAll() {
         if (Boolean(debug)) console.log('nerResetAll()');
