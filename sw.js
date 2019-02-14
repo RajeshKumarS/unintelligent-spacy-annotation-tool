@@ -1,9 +1,7 @@
 var cacheName = 'useat-cache';
 var filesToCache = ['/',
   '/index.html',
-  '/app.webmanifest',
   '/jquery-3.3.1.min.js',
-  '/bootstrap.min.css',
   '/icons/icon-32.png',
   '/icons/icon-192.png',
   '/icons/icon-512.png'
