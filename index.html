@@ -11,55 +11,398 @@ gtag('js', new Date());
 
 gtag('config', 'UA-130597273-1');
     </script>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#B12A34">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="/icons/icon-32.png">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+
+    <title>Entity Annotation Tool</title>
     <style>
-        body {
-            margin: 0;
-        }
-
-        textarea {
-            resize: none;
-            line-height: 16px;
-            width: 704px;
+        .btn-0 {
             background-color: rgb(248, 244, 244);
-            border: solid 1px rgb(240, 235, 235);
         }
 
-        code {
-            display: block;
-            background-color: rgb(248, 244, 244);
-            line-height: 20px;
-            width: 706px;
-            min-height: 24px;
-            padding: 2pX;
-            margin-top: 4px;
-            /* Whatever. The <code>'s width will change */
+        .btn-1,
+        .btn-1:visited,
+        .btn-1:active {
+            background-color: #007bff !important;
+            border-color: #007bff;
+            color: white;
         }
 
-        [placeholder]:empty::before {
-            content: attr(placeholder);
-            color: #999;
-            padding: 2px 4px;
+        .btn-1:hover {
+            background-color: rgba(0, 123, 255, 0.8) !important;
+            color: white;
         }
 
-        [placeholder]:empty:focus::before {
-            content: "";
+        .btn-1:focus {
+            background-color: #007bff !important;
+            border-color: #007bff;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(0, 123, 255, 0.5)
         }
 
-        #page {
-            display: table;
-            margin: auto;
-            vertical-align: middle;
+        .btn-2,
+        .btn-2:visited,
+        .btn-2:active {
+            background-color: #6c757d !important;
+            border-color: #6c757d;
+            color: white;
+        }
+
+        .btn-2:hover {
+            background-color: rgba(108, 117, 125, 0.8) !important;
+            color: white;
+        }
+
+        .btn-2:focus {
+            background-color: #6c757d !important;
+            border-color: #6c757d;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(108, 117, 125, 0.5)
+        }
+
+        .btn-3,
+        .btn-3:visited,
+        .btn-3:active {
+            background-color: #28a745 !important;
+            border-color: #28a745;
+            color: white;
+        }
+
+        .btn-3:hover {
+            background-color: rgba(40, 167, 69, 0.8) !important;
+            color: white;
+        }
+
+        .btn-3:focus {
+            background-color: #28a745 !important;
+            border-color: #28a745;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(40, 167, 69, 0.5)
+        }
+
+        .btn-4,
+        .btn-4:visited,
+        .btn-4:active {
+            background-color: #dc3545 !important;
+            border-color: #dc3545;
+            color: white;
+        }
+
+        .btn-4:hover {
+            background-color: rgba(220, 53, 69, 0.8) !important;
+            color: white;
+        }
+
+        .btn-4:focus {
+            background-color: #dc3545 !important;
+            border-color: #dc3545;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(220, 53, 69, 0.5)
+        }
+
+        .btn-5,
+        .btn-5:visited,
+        .btn-5:active {
+            background-color: #ffc107 !important;
+            border-color: #ffc107;
+            color: black;
+        }
+
+        .btn-5:hover {
+            background-color: rgba(255, 193, 7, 0.8) !important;
+            color: black;
+        }
+
+        .btn-5:focus {
+            background-color: #ffc107 !important;
+            border-color: #ffc107;
+            color: black;
+            box-shadow: 0 0 0 .2rem rgba(255, 193, 7, 0.5)
+        }
+
+        .btn-6,
+        .btn-6:visited,
+        .btn-6:active {
+            background-color: #17a2b8 !important;
+            border-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-6:hover {
+            background-color: rgba(23, 162, 184, 0.8) !important;
+            color: white;
+        }
+
+        .btn-6:focus {
+            background-color: #17a2b8 !important;
+            border-color: #17a2b8;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(23, 162, 184, 0.5)
+        }
+
+        .btn-7,
+        .btn-7:visited,
+        .btn-7:active {
+            background-color: #343a40 !important;
+            border-color: #343a40;
+            color: white;
+        }
+
+        .btn-7:hover {
+            background-color: rgba(52, 58, 64, 0.8) !important;
+            color: white;
+        }
+
+        .btn-7:focus {
+            background-color: #343a40 !important;
+            border-color: #343a40;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(52, 58, 64, 0.5)
+        }
+
+        .btn-8,
+        .btn-8:visited,
+        .btn-8:active {
+            background-color: #8064A2 !important;
+            border-color: #8064A2;
+            color: white;
+        }
+
+        .btn-8:hover {
+            background-color: rgba(128, 100, 162, 0.8) !important;
+            color: white;
+        }
+
+        .btn-8:focus {
+            background-color: #8064A2 !important;
+            border-color: #8064A2;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(128, 100, 162, 0.5)
+        }
+
+        .btn-9,
+        .btn-9:visited,
+        .btn-9:active {
+            background-color: #daa520 !important;
+            border-color: #daa520;
+            color: white;
+        }
+
+        .btn-9:hover {
+            background-color: rgba(218, 165, 32, 0.8) !important;
+            color: white;
+        }
+
+        .btn-9:focus {
+            background-color: #daa520 !important;
+            border-color: #daa520;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(218, 165, 32, 0.5)
+        }
+
+        .btn-10,
+        .btn-10:visited,
+        .btn-10:active {
+            background-color: #ba55d3 !important;
+            border-color: #ba55d3;
+            color: white;
+        }
+
+        .btn-10:hover {
+            background-color: rgba(186, 85, 211, 0.8) !important;
+            color: white;
+        }
+
+        .btn-10:focus {
+            background-color: #ba55d3 !important;
+            border-color: #ba55d3;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(186, 85, 211, 0.5)
+        }
+
+        .btn-11,
+        .btn-11:visited,
+        .btn-11:active {
+            background-color: #7cfc00 !important;
+            border-color: #7cfc00;
+            color: black;
+        }
+
+        .btn-11:hover {
+            background-color: rgba(124, 252, 0, 0.8) !important;
+            color: black;
+        }
+
+        .btn-11:focus {
+            background-color: #7cfc00 !important;
+            border-color: #7cfc00;
+            color: black;
+            box-shadow: 0 0 0 .2rem rgba(124, 252, 0, 0.5)
+        }
+
+        .btn-12,
+        .btn-12:visited,
+        .btn-12:active {
+            background-color: #08e0e0 !important;
+            border-color: #08e0e0;
+            color: black;
+        }
+
+        .btn-12:hover {
+            background-color: rgba(8, 224, 224, 0.8) !important;
+            color: black;
+        }
+
+        .btn-12:focus {
+            background-color: #08e0e0 !important;
+            border-color: #08e0e0;
+            color: black;
+            box-shadow: 0 0 0 .2rem rgba(8, 224, 224, 0.5)
+        }
+
+        .btn-13,
+        .btn-13:visited,
+        .btn-13:active {
+            background-color: #eb2323 !important;
+            border-color: #eb2323;
+            color: white;
+        }
+
+        .btn-13:hover {
+            background-color: rgba(235, 35, 35, 0.8) !important;
+            color: white;
+        }
+
+        .btn-13:focus {
+            background-color: #eb2323 !important;
+            border-color: #eb2323;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(235, 35, 35, 0.5)
+        }
+
+        .btn-14,
+        .btn-14:visited,
+        .btn-14:active {
+            background-color: #527da3 !important;
+            border-color: #527da3;
+            color: white;
+        }
+
+        .btn-14:hover {
+            background-color: rgba(82, 125, 163, 0.8) !important;
+            color: white;
+        }
+
+        .btn-14:focus {
+            background-color: #527da3 !important;
+            border-color: #527da3;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(82, 125, 163, 0.5)
+        }
+
+        .btn-15,
+        .btn-15:visited,
+        .btn-15:active {
+            background-color: #4c00ff !important;
+            border-color: #4c00ff;
+            color: white;
+        }
+
+        .btn-15:hover {
+            background-color: rgba(76, 0, 255, 0.8) !important;
+            color: white;
+        }
+
+        .btn-15:focus {
+            background-color: #4c00ff !important;
+            border-color: #4c00ff;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(76, 0, 255, 0.5)
+        }
+
+        .btn-16,
+        .btn-16:visited,
+        .btn-16:active {
+            background-color: #1dca49 !important;
+            border-color: #1dca49;
+            color: white;
+        }
+
+        .btn-16:hover {
+            background-color: rgba(29, 202, 73, 0.8) !important;
+            color: white;
+        }
+
+        .btn-16:focus {
+            background-color: #1dca49 !important;
+            border-color: #1dca49;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(29, 202, 73, 0.5)
+        }
+
+        .btn-17,
+        .btn-17:visited,
+        .btn-17:active {
+            background-color: #ce1124 !important;
+            border-color: #ce1124;
+            color: white;
+        }
+
+        .btn-17:hover {
+            background-color: rgba(206, 17, 36, 0.8) !important;
+            color: white;
+        }
+
+        .btn-17:focus {
+            background-color: #ce1124 !important;
+            border-color: #ce1124;
+            color: white;
+            box-shadow: 0 0 0 .2rem rgba(206, 17, 36, 0.5)
+        }
+
+        .btn-18,
+        .btn-18:visited,
+        .btn-18:active {
+            background-color: #fd9207 !important;
+            border-color: #fd9207;
+            color: black;
+        }
+
+        .btn-18:hover {
+            background-color: rgba(253, 146, 7, 0.8) !important;
+            color: black;
+        }
+
+        .btn-18:focus {
+            background-color: #fd9207 !important;
+            border-color: #fd9207;
+            color: black;
+            box-shadow: 0 0 0 .2rem rgba(253, 146, 7, 0.5)
+        }
+
+
+        main {
             padding-top: 50px;
         }
 
-        #entities {
-            padding: 4px;
-            overflow: hidden;
+        h1 {
+            margin-bottom: 0px;
+            font-size: 1.5em;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        .tag_type_display {
-            padding: 1px 2px;
-            border-radius: 2px
+        #entities {
+            margin-bottom:8px;
+        }
+
+        #entities>.btn-sm {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding: .15rem .5rem;
         }
 
         .entity_type_display {
@@ -67,120 +410,20 @@ gtag('config', 'UA-130597273-1');
             border-radius: 2px;
         }
 
-        .entity_type_button {
-            float: left;
-            background-color: bisque;
-            margin: 2px 4px;
-            padding: 4px;
-            border-radius: 2px;
-            cursor: pointer
-        }
-
-        .bc_0 {
-            background-color: rgb(248, 244, 244)
-        }
-
-        .bc_1 {
-            background-color: goldenrod
-        }
-
-        .bc_2 {
-            background-color: lawngreen
-        }
-
-        .bc_3 {
-            background-color: mediumorchid
-        }
-
-        .bc_4 {
-            background-color: rgb(240, 86, 119)
-        }
-
-        .bc_5 {
-            background-color: rgb(156, 209, 49)
-        }
-
-        .bc_6 {
-            background-color: aqua
-        }
-
-        .bc_7 {
-            background-color: rgb(248, 91, 185)
-        }
-
-        .bc_8 {
-            background-color: #FF99FF
-        }
-
-        .bc_9 {
-            background-color: #FFCCCC
-        }
-
-        .bc_10 {
-            background-color: #FFFF77
-        }
-
-        .bc_11 {
-            background-color: #9999FF
-        }
-
-        .bc_12 {
-            background-color: #00CC00
-        }
-
-        .bc_13 {
-            background-color: #66CCCC
-        }
-
-        .bc_14 {
-            background-color: #FFCC99
-        }
-
-        .bc_15 {
-            background-color: rgb(253, 253, 175)
-        }
-
-        .bc_16 {
-            background-color: #CCFFCC
-        }
-
-        .bc_17 {
-            background-color: rgb(236, 197, 79)
-        }
-
-        .bc_18 {
-            background-color: rgb(193, 226, 226)
-        }
-
-        .menuhighlight {
-            color: firebrick;
-            font-weight: bold;
-            border-bottom: solid 3px firebrick;
-        }
-
-        .menudehighlight {
-            color: #AAA;
-            font-weight: normal;
-        }
-
-        .historyDeleteHighlight {
-            background-color: #777 !important;
-            color: white !important;
-        }
-
-        .historyContent {
-            padding: 4px;
+        #tagline {
             font-size: small;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
         }
-
-        .deleteIcon {
-            margin-right: 5px;
-            padding: 0px 4px;
-            background-color: white;
-            border: solid 1px #777;
-            font-size: small;
-            font-family: Arial, Helvetica, sans-serif;
+        
+        code {
+            display: block;
+            background-color: rgb(248, 244, 244);
+            color: #212529;
+            line-height: 20px;
+            width: 100%;
+            min-height: 24px;
+            padding: 2pX;
+            margin-top: 4px;
         }
 
         .noselect {
@@ -195,76 +438,175 @@ gtag('config', 'UA-130597273-1');
             -ms-user-select: none;
             /* Internet Explorer/Edge */
             user-select: none;
-            /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+            /* Non-prefixed version, currently upported by Chrome and Opera */
+        }
+
+        textarea {
+            resize: none;
+            width: 100%;
+            border: solid 0px rgb(240, 235, 235);
+        }
+
+        #addNerHint {
+            float: left;
+            padding-left: 4px;
+            color: rgb(127, 127, 127);
+            display: none;
+            font-size: smaller;
+        }
+
+        #deleteHint {
+            float: left;
+            margin-top: 4px;
+            padding-left: 4px;
+            color: rgb(127, 127, 127);
+            font-size: smaller;
+            display: none;
+        }
+
+        .deleteIcon {
+            margin-right: 5px;
+            padding: 0px 4px;
+            background-color: white;
+            border: solid 1px #777;
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #nerLabelContainer,
+        #historyContainer {
+            margin-top: 60px;
+            display: none;
+            text-align: left;
+            width:100%;
+        }
+
+        #nerLabelHeader {
+            padding: 4px 0px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 550;
+            font-size: medium;
+        }
+
+        #copyToClipboard {
+            float: right;
+            padding: 4px 8px;
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(240, 235, 235);
+            cursor: pointer;
+        }
+
+        #historyHeader {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #saveToHistory {
+            margin-top: 8px;
+            float: right;
+            background-color: lightgray;
+            padding: 4px 10px;
+            cursor: pointer;
+        }
+
+        #nerRangeError {
+            color: red;
+            margin: 10px 0;
+            display: none;
+        }
+
+        #copyHistory {
+            float: right;
+            padding: 4px 8px;
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(240, 235, 235);
+            cursor: pointer;
+        }
+
+        #clearHistory {
+            float: right;
+            padding: 4px 8px;
+            margin-right: 8px;
+            font-size: small;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(240, 235, 235);
+            cursor: pointer;
+        }
+
+        #historyContent {
+            min-height: 20px;
+            padding: 4px;
+            border-radius: 2px;
+            background-color: rgb(248, 244, 244);
+            font-size: 87.5%;
+        }
+
+        .historyDeleteHighlight {
+            background-color: #777 !important;
+            color: white !important;
+        }
+
+        #pinIt {
+            position:fixed; 
+            top:0; 
+            right:0; 
+            margin:15px; 
+            display: none;
         }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-    <div style="display: inline-block; width:100%; border-bottom: solid 1px rgb(245, 245, 255); background-color: rgb(252, 252, 255)">
-        <div style="text-align: center; color: #000; margin-bottom:20px;">
-            <h1 style="margin-bottom:0px; font-size:1.5em; font-family: Arial, Helvetica, sans-serif">Un-intelligent
-                Spacy Entity Annotation Tool</h1>
-            <div style="font-size:small; font-family: 'Times New Roman', Times, serif">by beginners, for beginners</div>
+    <nav class="navbar navbar-light bg-light">
+        <div style="text-align:center; width:100%; line-height: 1;">
+            <h1>Un-intelligent Spacy Entity Annotation Tool</h1>
+            <span id="tagline">by beginners, for beginners</span>
         </div>
-    </div>
-    <div id="page">
-
-        <div id="nerBlock" class="label_block" style="width: 710px;">
-            <div id="entities"></div>
-            <div style="clear:both;"></div>
-            <textarea spellcheck="false" name="trainNerSentence" rows="5" onpaste="nerResetAll()" onkeyup="onKeyUp()"
-                placeholder="keyin/paste training sentence here and press 'Start Annotation' ..."></textarea>
-            <span id="addNerHint" style="float:left; padding-left:4px; color:rgb(127, 127, 127); display:none; font-size:smaller;">Select
-                text
-                and click on entity type to annotate</span>
-            <span id="trainSentButtons">
-                <span class=entity_type style='margin-top:4px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
-                    onclick="onStartAnnotation()">Start Annotation</span>
-                <span id="nerResetButton" class='entity_type menudehighlight' style='margin-top:4px; margin-right:8px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
-                    onclick="onNerClearAll()">Reset</span>
-            </span>
-            <div style="clear:both;"></div>
-            <div id="nerLabelContainer" style="margin-top:60px; display:none;">
-                <div style="padding:4px 0px; font-family: Arial, Helvetica, sans-serif; font-weight:550; font-size:medium">Training
-                    sentence with entity annotations:</div>
-                <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;"
-                    onclick="copyToClipboard()">Copy</span><br>
-                <code id="nerLabeled" class="noselect"></code>
-                <span id="deleteHint" style="float:left; margin-top:4px; padding-left:4px; color:rgb(127, 127, 127); display:none; font-size:smaller;">Click
-                    on annotation index range, e.g. (0, 5, "..."), to remove it</span>
-                <span id="saveButton">
-                    <span class=entity_type style='margin-top:8px; float:right; background-color:lightgray; padding:4px 10px; cursor:pointer;'
-                        onclick=onSaveToHistory()>Save to History</span>
-                </span>
-            </div>
-            <div id="nerRangeError" style="color: red; margin:10px 0; display:none;">AnnotationError: index range
-                overlap</div>
-            <div style="clear:both;"></div>
-            <div id="history" style="margin-top:50px; display:none;">
-                <div style="font-family: Arial, Helvetica, sans-serif;"><b>History</b></div>
-                <div>
-                    <span style="float:right; padding:4px 8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;"
-                        onclick="copyHistoryToClipboard()">Copy</span>
-                    <span style="float:right; padding:4px 8px; margin-right:8px; font-size:small; font-family: Arial, Helvetica, sans-serif; background-color: rgb(240, 235, 235); cursor:pointer;"
-                        onclick="clearHistory()">Clear</span>
+        <button id="pinIt" type="button" class="btn btn-secondary btn-sm disabled">Pin to Desktop</button>
+    </nav>
+    <div class='container-fluid' align='center'>
+        <main>
+            <div class='col-12 col-md-9 col-xl-7 py-md-3 pl-md-5'>
+                <div id='entitytypeContainer' style="display:none;">
+                    <div id='entities'></div>
+                    <div class='card'>
+                        <textarea spellcheck="false" name="trainNerSentence" rows="5" onclick="textSelection=true;"
+                            onpaste="nerResetAll()" onkeyup="onKeyUp()" placeholder="keyin/paste training sentence here and start annotating ..."></textarea>
+                    </div>
+                    <span id="addNerHint">Select text and click on entity type to annotate</span>
+                    <button id="nerResetButton" type="button" class="btn btn-secondary btn-sm disabled" style="margin-top:4px; float:right;"
+                        onclick="onNerClearAll()">Reset</button>
                 </div>
-                <div style="clear:both;"></div>
-                <div id="historyContent" style="min-height:20px; padding:4px; border-radius:2px; background-color: rgb(248, 244, 244);"></div>
-            </div>
-        </div>
 
+                <div id="nerLabelContainer">
+                    <div id="nerLabelHeader">Training
+                        sentence with entity annotations:</div>
+                    <span id="copyToClipboard" onclick="copyToClipboard()">Copy</span><br>
+                    <code id="nerLabeled" class="noselect"></code>
+                    <span id="deleteHint">Click on annotation, e.g. (0, 5, "..."), to remove it</span>
+                    <button id="saveButton" type="button" class="btn btn-secondary btn-sm" style="margin-top:4px; float:right;"
+                        onclick="onSaveToHistory()">Save to History</button>
+                </div>
+                <div id="nerRangeError">AnnotationError: index range
+                    overlap</div>
+                <div style="clear:both;"></div>
+                <div id="historyContainer">
+                    <div id="historyHeader"><b>History</b></div>
+                    <div>
+                        <span id="copyHistory" onclick="copyHistoryToClipboard()">Copy</span>
+                        <span id="clearHistory" onclick="clearHistory()">Clear</span>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div id="historyContent"></div>
+                </div>
+            </div>
+        </main>
     </div>
 </body>
+<script src="jquery-3.3.1.min.js"></script>
 <script>
-    var EntityType = {
-        "NONE": 0, "PERSON": 1, "NORP": 2, "FAC": 3, "GPE": 4, "PRODUCT": 5, "EVENT": 6, "WORK_OF_ART": 7, "LAW": 8, "LANGUAGE": 9,
-        "ORG": 10, "LOC": 11, "DATE": 12, "TIME": 13, "PERCENT": 14, "MONEY": 15, "QUANTITY": 16, "ORDINAL": 17, "CARDINAL": 18
-    }
-    Object.freeze(EntityType)
-    var invertedEntityType = ["NONE", "PERSON", "NORP", "FAC", "GPE", "PRODUCT", "EVENT", "WORK_OF_ART",
+    var nerEntityType = ["NONE", "PERSON", "NORP", "FAC", "GPE", "PRODUCT", "EVENT", "WORK_OF_ART",
         "LAW", "LANGUAGE", "ORG", "LOC", "DATE", "TIME", "PERCENT", "MONEY", "QUANTITY", "ORDINAL", "CARDINAL"]
     var label = { "startIndex": 0, "endIndex": 0, "entityType": 0 }
     var nerLabelList = []
@@ -275,20 +617,19 @@ gtag('config', 'UA-130597273-1');
     var nerErrorFlag = 0
     var cursorStartPosition = 0
     var cursorEndPosition = 0
-    var debug = 0
-
+    var textSelection = false
 
     function createEntityButtons() {
         temp = '';
-        for (i = 1; i < invertedEntityType.length; i++) {
-            clr = 'bc_' + i;
-            temp += '<span class="entity_type_button ' + clr + '"  onclick=updateEntityType(' + i + ')>' + invertedEntityType[i] + '</span>'
+        for (i = 1; i < nerEntityType.length; i++) {
+            clr = 'btn-' + i;
+            temp += '<button type="button" class="btn ' + clr + ' btn-sm" onclick=assocEntityType(' + i + ')>' + nerEntityType[i] + '</button> '
         }
         $('#entities').html(temp);
+        $('#entitytypeContainer').show();
     }
 
     function removeNerLabel(elem) {
-        if (Boolean(debug)) console.log('removeNerLabel()');
         nerLabelList.splice($(elem).data("index"), 1);
         showNerLabels();
         $("#nerRangeError").hide();
@@ -302,11 +643,10 @@ gtag('config', 'UA-130597273-1');
     }
 
     function showNerLabels() {
-        if (Boolean(debug)) console.log('showNerLabels()');
         if (train_sentence.length == 0)
             return;
         createNerLabelChunks();
-        $("#nerLabelContainer").show();
+        $("#nerLabelContainer").css('display', 'inline-block');
         $("#addNerHint").show();
         if (nerLabelList.length > 0)
             $('#deleteHint').show();
@@ -316,7 +656,7 @@ gtag('config', 'UA-130597273-1');
         for (i = 0; i < nerLabelList.length; i++) {
             if (i != 0)
                 str += ', ';
-            chunk = '<span data-index="' + i + '"style="background-color: white; padding:2px; border-radius:2px; cursor:pointer;" title="click to remove" onclick="removeNerLabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + nerLabelList[i].startIndex + ', ' + nerLabelList[i].endIndex + ', "' + invertedEntityType[nerLabelList[i].entityType] + '")</span>';
+            chunk = '<span class="label" data-index="' + i + '" style="background-color: white; padding:2px; border-radius:2px; cursor:pointer;" title="click to remove" onclick="removeNerLabel(this)" onmouseover="highlight(this)"  onmouseout="dehighlight(this)">(' + nerLabelList[i].startIndex + ', ' + nerLabelList[i].endIndex + ', "' + nerEntityType[nerLabelList[i].entityType] + '")</span>';
             str += chunk;
         }
         output_string = '("' + color_coded_string + '", [ ' + str + ' ] )';
@@ -327,7 +667,7 @@ gtag('config', 'UA-130597273-1');
         label_chunks = [];
         ind_array = [];
 
-        ind_array.push({ 'startIndex': 0, 'entityType': 'NONE' });
+        ind_array.push({ 'startIndex': 0, 'entityType': '0' });
         for (i = 0; i < nerLabelList.length; i++) {
             ind_array.push({ 'startIndex': nerLabelList[i].startIndex, 'entityType': nerLabelList[i].entityType });
             ind_array.push({ 'startIndex': nerLabelList[i].endIndex, 'entityType': 0 });
@@ -344,14 +684,17 @@ gtag('config', 'UA-130597273-1');
         }
         temp = '';
         for (i = 0; i < label_chunks.length; i++) {
-            classname = 'bc_' + label_chunks[i].entityType;
-            temp += '<span class="entity_type_display ' + classname + '">' + label_chunks[i].chunk + '</span>';
+            classname = 'btn-' + label_chunks[i].entityType;
+            if (parseInt(label_chunks[i].entityType) == 0)
+                temp += '<span class="entity_type_display ' + classname + '">' + label_chunks[i].chunk + '</span>';
+            else
+                temp += '<span data-index="' + parseInt(i / 2) + '" class="entity_type_display ' + classname + '" onmouseover="highlightLabel(this)" onmouseout="dehighlightLabel(this)">' + label_chunks[i].chunk + '</span>'; ""
         }
         color_coded_string = temp;
     }
 
-    function updateEntityType(num) {
-        if (Boolean(debug)) console.log('updateEntityType()');
+    function assocEntityType(num) {
+        if (!textSelection) return;
         train_sentence = $("textarea[name=trainNerSentence]").val();
         cursorStartPosition = $('textarea[name=trainNerSentence]').prop("selectionStart");
         cursorEndPosition = $('textarea[name=trainNerSentence]').prop("selectionEnd");
@@ -367,40 +710,32 @@ gtag('config', 'UA-130597273-1');
             }
         }
         if (train_sentence.length > 0) {
-            $('#nerResetButton').removeClass('menudehighlight');
+            $('#nerResetButton').removeClass('disabled');
             if (nerErrorFlag == 0)
-                $('#saveButton').removeClass('menudehighlight');
+                $('#saveButton').removeClass('disabled');
         }
         $('textarea[name=trainNerSentence]').prop("selectionStart", 0);
         $('textarea[name=trainNerSentence]').prop("selectionEnd", 0);
         cursorStartPosition = 0;
         cursorEndPosition = 0;
         showNerLabels();
-    }
-
-    function onNerTrainDataBlur() {
-        if (Boolean(debug)) console.log('onNerTrainDataBlur()');
-
-        train_sentence = $("textarea[name=trainNerSentence]").val();
-        if (train_sentence.length > 0) {
-            $("#nerLabelContainer").show();
-        }
-        else {
-            $("#nerLabelContainer").hide();
-        }
-        cursorStartPosition = $('textarea[name=trainNerSentence]').prop("selectionStart");
-        cursorEndPosition = $('textarea[name=trainNerSentence]').prop("selectionEnd");
-        showNerLabels();
+        textSelection = false;
     }
 
     function onKeyUp() {
         str = $("textarea[name=trainNerSentence]").val();
-        if (str.localeCompare(train_sentence) != 0)
+        if (str.localeCompare(train_sentence) != 0) {
             nerResetAll();
+            $('#nerResetButton').removeClass('disabled');
+            $("#addNerHint").show();
+        }
+        if (str.length == 0) {
+            $('#nerResetButton').addClass('disabled');
+            $("#addNerHint").hide();
+        }
     }
 
     function onStartAnnotation() {
-        if (Boolean(debug)) console.log('onStartAnnotation()');
         nerLabelList = [];
         label_chunks = [];
         color_coded_string = "";
@@ -408,9 +743,8 @@ gtag('config', 'UA-130597273-1');
         cursorEndPosition = 0;
         train_sentence = $("textarea[name=trainNerSentence]").val();
         if (train_sentence.length > 0) {
-            $("#nerLabelContainer").show();
-            $('#saveButton').removeClass('menudehighlight');
-            $('#nerResetButton').removeClass('menudehighlight');
+            $("#nerLabelContainer").css('display', 'inline-block');
+            $('#saveButton').removeClass('disabled');
         }
         showNerLabels();
     }
@@ -474,7 +808,7 @@ gtag('config', 'UA-130597273-1');
                 content += ',';
             deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
             $('#historyContent').prepend('<div data-index="' + (nerSavedHistoryStack.length - 1) + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + '</span></div>');
-            $('#history').show();
+            $('#historyContainer').show();
         }
         else if (nerErrorFlag != 0) {
             alert("Please remove annotation error first!")
@@ -482,25 +816,12 @@ gtag('config', 'UA-130597273-1');
     }
 
     function onNerClearAll() {
-        if (Boolean(debug)) console.log('onNerClearAll()');
-        nerLabelList = [];
+        nerResetAll();
+        $('#nerResetButton').addClass('disabled');
         $("textarea[name=trainNerSentence]").val('');
-        train_sentence = '';
-        $("#nerLabeled").html('');
-        $("#nerRangeError").hide();
-        $("#deleteHint").hide();
-        $("#addNerHint").hide();
-        label_chunks = [];
-        train_sentence = "";
-        color_coded_string = "";
-        cursorStartPosition = 0;
-        cursorEndPosition = 0;
-        $('#nerResetButton').addClass('menudehighlight');
-        $('#saveButton').addClass('menudehighlight');
     }
 
     function nerResetAll() {
-        if (Boolean(debug)) console.log('nerResetAll()');
         nerLabelList = [];
         train_sentence = '';
         $("#nerLabeled").html('');
@@ -511,7 +832,7 @@ gtag('config', 'UA-130597273-1');
         color_coded_string = "";
         cursorStartPosition = 0;
         cursorEndPosition = 0;
-        $('#saveButton').addClass('menudehighlight');
+        $('#saveButton').addClass('disabled');
     }
 
     function copyToClipboard() {
@@ -531,21 +852,27 @@ gtag('config', 'UA-130597273-1');
     }
 
     function highlight(elem) {
-        if (Boolean(debug)) console.log('highlight()');
         elem.style.backgroundColor = 'lightgray';
+        index = $(elem).data('index');
+        $('.entity_type_display[data-index="' + index + '"]').css('opacity', '0.5');
     }
 
     function dehighlight(elem) {
-        if (Boolean(debug)) console.log('dehighlight()');
         elem.style.backgroundColor = 'white';
+        $('.entity_type_display').css('opacity', '1.0');
     }
 
-    function resetAll() {
-        nerResetAll();
+    function highlightLabel(elem) {
+        index = $(elem).data('index');
+        $('.label[data-index="' + index + '"]').css('background-color', 'lightgray');
+    }
+
+    function dehighlightLabel(elem) {
+        $('.label').css('background-color', 'white');
     }
 
     $(document).ready(function () {
-        resetAll();
+        nerResetAll();
         createEntityButtons();
     });
 
@@ -556,6 +883,13 @@ gtag('config', 'UA-130597273-1');
             if (!element.text().trim().length) {
                 element.empty();
             }
+        });
+    });
+</script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js');
         });
     });
 </script>
