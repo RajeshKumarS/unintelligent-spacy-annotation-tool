@@ -1,2 +1,2 @@
 # unintelligent-spacy-annotation-tool
-A simple-and-dumb annotation tool for Spacy ner training
+An easy-to-use annotation tool for Spacy ner training
