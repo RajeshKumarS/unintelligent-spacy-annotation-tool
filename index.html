@@ -555,9 +555,15 @@ gtag('config', 'UA-130597273-1');
             margin:15px; 
             display: none;
         }
-        
-     li { background: white; }
-li:nth-child(odd) { background: #EFF; }   
+
+        #historyContent > li { 
+            background: white; 
+            list-style-type: none; 
+        }
+
+        #historyContent > li:nth-child(odd) { 
+            background: #EFF; 
+        }
     </style>
 </head>
 
@@ -602,7 +608,7 @@ li:nth-child(odd) { background: #EFF; }
                         <span id="clearHistory" onclick="clearHistory()">Clear</span>
                     </div>
                     <div style="clear:both;"></div>
-                    <div id="historyContent"></div>
+                    <ul id="historyContent"></ul>
                 </div>
             </div>
         </main>
@@ -811,7 +817,7 @@ li:nth-child(odd) { background: #EFF; }
             if (nerSavedHistoryStack.length != 1)
                 content += ',';
             deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
-            $('#historyContent').prepend('<div data-index="' + (nerSavedHistoryStack.length - 1) + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + '</span></div>');
+            $('#historyContent').prepend('<li data-index="' + (nerSavedHistoryStack.length - 1) + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + content + '</span></li>');
             $('#historyContainer').show();
         }
         else if (nerErrorFlag != 0) {
