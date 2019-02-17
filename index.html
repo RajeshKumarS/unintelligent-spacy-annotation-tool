@@ -536,7 +536,7 @@ gtag('config', 'UA-130597273-1');
         }
 
         #historyContent {
-            min-height: 20px;
+            min-height: 24px;
             padding: 4px;
             border-radius: 2px;
             background-color: rgb(248, 244, 244);
@@ -778,8 +778,10 @@ gtag('config', 'UA-130597273-1');
         $('.deleteIcon').addClass('historyDeleteHighlight');
         setTimeout(function () {
             yesno = confirm("Are you sure?");
-            if (yesno == true)
+            if (yesno == true) {
                 $('#historyContent').html('');
+                nerSavedHistoryStack = [];
+            }
             else
                 $('.deleteIcon').removeClass('historyDeleteHighlight');
         }, 5);
@@ -799,11 +801,11 @@ gtag('config', 'UA-130597273-1');
                 temp = '';
                 for (i = nerSavedHistoryStack.length - 1; i > 0; i--) {
                     deleteChunk = '<span data-index="' + (nerSavedHistoryStack.length - 1) + '" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
-                    temp += '<div data-index="' + i + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + nerSavedHistoryStack[i] + ',</span></div>';
+                    temp += '<li data-index="' + i + '" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + nerSavedHistoryStack[i] + ',</span></li>';
                 }
                 if (nerSavedHistoryStack.length > 0) {
                     deleteChunk = '<span data-index="0" class="deleteIcon" onclick="onRemoveFromHistory(this)">x</span>';
-                    temp += '<div data-index="0" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + nerSavedHistoryStack[0] + '</span></div>';
+                    temp += '<li data-index="0" style="padding:3px;">' + deleteChunk + '<span class="historyContent">' + nerSavedHistoryStack[0] + '</span></li>';
                 }
                 $('#historyContent').html(temp);
             }
