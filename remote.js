@@ -1,1 +1,1 @@
-let data={id: 'remote'}
+let data={id: 'remote update'}
