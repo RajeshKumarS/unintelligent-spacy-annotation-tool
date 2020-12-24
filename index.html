@@ -447,7 +447,7 @@ gtag('config', 'UA-130597273-1');
             border: solid 0px rgb(240, 235, 235);
         }
 
-        #addNerHint {
+        #addNerHint, #nerLabelHeaderHint {
             float: left;
             padding-left: 4px;
             color: rgb(127, 127, 127);
@@ -591,6 +591,7 @@ gtag('config', 'UA-130597273-1');
                 <div id="nerLabelContainer">
                     <div id="nerLabelHeader">Training
                         sentence with entity annotations:</div>
+                    <span if="nerLabelHeaderHint">Save it to history after all labels are added</span>
                     <span id="copyToClipboard" onclick="copyToClipboard()">Copy</span><br>
                     <code id="nerLabeled" class="noselect"></code>
                     <span id="deleteHint">Click on annotation, e.g. (0, 5, "..."), to remove it</span>
